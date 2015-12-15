@@ -1,0 +1,15 @@
+alpha=zeros(1,101); %10-mer, 100 phi
+gamma=zeros(10,101);
+phi=linspace(0,0.4,101);
+rs=1;
+rc=1;
+R=rs/rc;
+
+for i=1:101
+    z=phi(i)/(1-phi(i));
+    for j=1:10
+        alpha(i)=exp(((R^3+3*R^2+3*R+4)*z+(3*R^3+4.5*R^2+6)*z^2+(3*R^3+3)*z^3));
+        gamma=(1-phi(i))*alpha(i)^(j-1);
+    end
+end
+

@@ -1,0 +1,48 @@
+close all
+l=100;
+phi=linspace(0,0.22,l);
+cfib=zeros(l,1);
+lng=zeros(l,1);
+gamma=zeros(l,1);
+goa=zeros(l,1);
+alpha=zeros(l,1);
+
+data_I=[30;36.3;41.2;45.2]; % can be scaled, then fit to concentration
+data_phi=[0;.05;.1;.2]; 
+
+%scale data%%%%%
+k=.5*10^-7;
+data_I=(data_I-data_I(1))*k;
+
+c1_eq=zeros(l,1);
+c_0=5*10^-6;
+
+r=3;
+rc=3;
+R=r/rc;
+r_sc=4*r;
+Rsc=r_sc/rc;
+a=1;
+b=10^-6;
+aob=a/b;
+
+
+for i=1:l
+    z=phi(i)/(1-phi(i));
+    lng(i)=log(1-phi(i))+(R^3 + 3*R^2 + 3*R)*z +(3*R^3 + 4.5*R^2)*z^2 + (3*R^2)*z^3;
+    gamma(i)=exp(lng(i));
+    lnalpha=(2/3)*(r/r_sc)^3 * (1.5*(Rsc^2+2*Rsc+1*z)+4.5*(Rsc^2+Rsc)^z^2+4.5*Rsc^2*z^3);
+    alpha(i)=exp(lnalpha);
+    
+    lambda=a*gamma(i)/(b*alpha(i));
+    c1_eq(i)=2*c_0/(1+2*lambda*c_0+(1+4*lambda*c_0)^0.5);
+end
+
+for i=1:l
+    goa=gamma(i)/alpha(i);
+    cfib(i)=c_0-c1_eq(i);
+end
+
+scatter(data_phi,data_I);
+hold on
+plot(phi,cfib-cfib(1));

@@ -2,7 +2,7 @@
 close all
 clear all
 r=2.5; %protein raidus
-rc=1.35; %crowder radius
+%rc=1.35; %crowder radius
 rsc=5; %spherocylinder radius
 phimax=0.15; %highest volume fraction
 l=101;
@@ -16,7 +16,7 @@ N=100; % max tracked polymer size
 c=zeros(l,N);
 cfib=zeros(1,l);
 
-a=2.15*10^6; %a=2.15*10^6
+a=2.4*10^-2 * 2.15*10^6; %a=2.15*10^6
 b=1; %ass and diss rates
 
 alpha=zeros(1,l);
@@ -29,11 +29,13 @@ gamma(1)=1; alpha(1)=1;
 c(1,1) = 2*c0/(1+2*(a/b)*c0 + (1+4*(a/b)*c0)^0.5); % no crowder monomer mass
 c(1,2) = (a/b)*c(1,1)^2;
 cfib(1)=c0-c(1,1)-c(1,2);
-R=r/rc;
-Rsc=rsc/rc;
+
 
 % fit for winter dextran data. FITS VERIFIED BY LEAST SQUARE
 for i=2:l
+    rc=23.7*phi(i)+1.72;
+    R=r/rc;
+    Rsc=rsc/rc;
     z(i)=phi(i)/(1-phi(i));
     lng(i)=log(1-phi(i))+(R^3+3*R^2+R)*z(i)+(3*R^3+4.5*R^2)*z(i)^2+3*R^3*z(i)^3;
     lnalpha(i)=(2/3)*(r/rsc)^3*(1.5*(Rsc^2+2*Rsc+1)*z(i)+4.5*(Rsc^2+Rsc)*z(i)^2+4.5*Rsc^2*z(i)^3);
@@ -49,13 +51,13 @@ data_phi_1=[0;.0375;.075;.15];
 data_F_1=[30;36.3;41.2;45.2];
 
 %scale
-k=.38*10^-7;
-s=30-(4.4*10^-6)/k;
+k=.038*10^-7;
+s=30-(1*10^-6)/k;
 figure(dextran)
 data_F_1=k*(data_F_1-s);
-data=scatter(data_phi_1,data_F_1.*10^6,'s','filled');
+data=scatter(data_phi_1,data_F_1,'s','filled');
 hold on
-plot(phi,cfib.*10^6);
+plot(phi,cfib);
 tit=title('');
 xlab=xlabel('\phi');
 ylab=ylabel('c_{fib}');
@@ -66,9 +68,9 @@ set( gca                       , ...
 set([tit, xlab, ylab], ...
     'FontName'   , 'AvantGarde');
 set([gca]             , ...
-    'FontSize'   , 12           );
+    'FontSize'   , 8           );
 set([xlab, ylab]  , ...
-    'FontSize'   , 12          );
+    'FontSize'   , 10          );
 set( tit                    , ...
     'FontSize'   , 12          , ...
     'FontWeight' , 'bold'      );
@@ -110,19 +112,14 @@ data_TF=[29.3;56.7;62.7;74.6];
 
 
 %scale
- k=.132*10^-7;
- s=data_TF(1)-(4.4*10^-6)/k;
- data_TF=k*(data_TF-s);
-
-
-
-
-
+k=.132*10^-7;
+s=data_TF(1)-(4.4*10^-6)/k;
+data_TF=k*(data_TF-s);
 
 figure(tmao)
-data=scatter(data_Tphi,data_TF.*10^6,'s','filled');
+data=scatter(data_Tphi,data_TF,'s','filled');
 hold on
-plot(phi,cfib.*10^6);
+plot(phi,cfib);
 tit=title('');
 xlab=xlabel('\phi');
 ylab=ylabel('c_{fib}');
@@ -133,9 +130,9 @@ set( gca                       , ...
 set([tit, xlab, ylab], ...
     'FontName'   , 'AvantGarde');
 set([gca]             , ...
-    'FontSize'   , 12           );
+    'FontSize'   , 8           );
 set([xlab, ylab]  , ...
-    'FontSize'   , 12          );
+    'FontSize'   , 10          );
 set( tit                    , ...
     'FontSize'   , 12          , ...
     'FontWeight' , 'bold'      );

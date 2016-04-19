@@ -50,23 +50,31 @@ for i=1:L
         
 end
 figure
-plot(c_0,cfib); % plots for fig 5 in wegner actin paper
+plot(c_0.*10^6,cfib.*10^6); % plots for fig 5 in wegner actin paper
 hold on
-scatter(c_0,data, 's', 'filled');
-xlab=xlabel('c_0');
+scatter(c_0.*10^6,data.*10^6, 's', 'filled');
+xlab=xlabel('c_0 (\mu M)');
 ylab=ylabel('c_{fib} (\muM)');
 
 set( gca                       , ...
     'FontName'   , 'Helvetica' );
-set([tit, xlab, ylab], ...
-    'FontName'   , 'AvantGarde');
+% set([title, xlab, ylab], ...
+%     'FontName'   , 'AvantGarde');
 set([gca]             , ...
-    'FontSize'   , 8           );
+    'FontSize'   , 12           );
 set([xlab, ylab]  , ...
-    'FontSize'   , 10          );
-set( tit                    , ...
-    'FontSize'   , 12          , ...
-    'FontWeight' , 'bold'      );
+    'FontSize'   , 12          );
+% set( title                    , ...
+%     'FontSize'   , 12          , ...
+%     'FontWeight' , 'bold'      );
 
 
 hold off
+
+k=10^4;
+
+
+
+
+
+
